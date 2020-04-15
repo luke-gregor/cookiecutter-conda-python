@@ -2,27 +2,38 @@
 
 language: python
 python:
-  - "2.7"
   - "3.6"
+  - "3.8"
 
-install:
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
+before_install:
+  - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
-  - conda config --set always_yes yes
+  - conda config --add channels conda-forge
+  - conda config --add channels anaconda
+  - conda config --set always_yes yes 
+  - conda config --set changeps1 no 
+  - conda condif --set show_channel_urls true
   - conda update -q conda
-  - conda install conda-build anaconda-client pytest pytest-cov
-  - conda config --set auto_update_conda no
-  - conda build conda.recipe --no-test
-  - conda install --use-local {{ cookiecutter.package_name }}
   - conda info -a
+
+install:
+  - conda env create -n {{ cookiecutter.package_name }}-dev --file requirements.txt
+  - source activate {{ cookiecutter.package_name }}-dev
+  - conda install pip
+  - pip install .
+  - pip install pytest-cov
+  - pip install coveralls
+  - pip install black
+  - pip install flake8
+  - pip install isort
+
 script:
-  - pytest -v --color=yes --cov={{ cookiecutter.package_name }} tests
-after_success:
-  - conda install -c conda-forge codecov
-  - codecov
+  - coverage run --source {{ cookiecutter.package_name }} -m py.test
+  - coverage report
+  # - pushd docs   # no docs yet
+  - ./ci/run-linter.sh
+
+# after_success:
+  # - coveralls  # not set up yet
