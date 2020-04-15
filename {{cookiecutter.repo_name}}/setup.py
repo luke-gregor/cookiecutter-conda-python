@@ -8,14 +8,8 @@ if exists('README.rst'):
 else:
     long_description = ''
 
-install_requires = [
-    'setuptools',
-    'setuptools_scm',
-    'keyring',
-    'schema',
-    'validators',
-    'tqdm',
-]
+with open('requirements.txt') as f:
+    install_requires = f.read().strip().split('\n')
 
 test_requirements = ['pytest-cov']
 CLASSIFIERS = [
@@ -30,7 +24,7 @@ CLASSIFIERS = [
 ]
 
 setup(
-    name='{{ cookiecutter.repo_name }}',    
+    name='{{ cookiecutter.repo_name }}',
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     author_email='{{ cookiecutter.email }}',
     description="{{ cookiecutter.project_short_description }}",
