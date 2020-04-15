@@ -1,5 +1,4 @@
 from os.path import exists
-import versioneer
 
 from setuptools import find_packages, setup
 
@@ -10,6 +9,8 @@ else:
     long_description = ''
 
 install_requires = [
+    'setuptools',
+    'setuptools_scm',
     'keyring',
     'schema',
     'validators',

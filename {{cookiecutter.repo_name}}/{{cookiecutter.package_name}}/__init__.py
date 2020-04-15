@@ -1,3 +1,3 @@
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
+from setuptools_scm import get_version
+__version__ = get_version(root='..', relative_to=__file__)
+del get_version
