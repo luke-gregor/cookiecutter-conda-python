@@ -3,5 +3,4 @@ tqdm
 numpy
 xarray
 pandas
-m2r
 PyYAML

@@ -36,11 +36,11 @@ del get_version
 # ones.
 
 extensions = [
-    'm2r',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
+    'recommonmark',
 ]
 
 autosummary_generate = True
@@ -50,12 +50,13 @@ autodoc_default_flags = ['members', 'inherited-members']
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-# The suffix of source filenames.
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.txt': 'markdown',
-    '.md': 'markdown',
+
+source_parsers = {
+    '.md': 'recommonmark.parser.CommonMarkParser',
 }
+
+# The suffix of source filenames.
+source_suffix = ['.rst', '.md']
 
 napoleon_numpy_docstring = True
 
